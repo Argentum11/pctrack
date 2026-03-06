@@ -6,7 +6,6 @@ import os
 import cv2
 from utils.config import*
 import time
-import numba
 
 def if_in(box,point):
     #box:[x y x y]

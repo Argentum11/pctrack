@@ -8,7 +8,6 @@ from scipy.optimize import linear_sum_assignment
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 from model.cnn import CNNPred
-import numba
 
 
 class frame_cache:
