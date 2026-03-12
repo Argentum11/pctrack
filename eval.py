@@ -112,4 +112,6 @@ for filepath,dirnames,filenames in os.walk(rp):
         fid += 1
 
 avg_prec, avg_recall, avg_f1 = total_performance[0]/count, total_performance[1]/count, total_performance[2]/count
-print("precision: ",total_performance[0]/count, "recall: ",total_performance[1]/count, "F1 score: ",total_performance[2]/count)
+print(f"precision: {avg_prec:.2f}")
+print(f"recall: {avg_recall:.2f}")
+print(f"F1 score: {avg_f1:.2f}")
