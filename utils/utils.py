@@ -274,7 +274,7 @@ def save_txt(result, fid):
     for cls, box in zip(clses,boxes):
         cls,box = cls.tolist(),box.tolist()
         line = (cls,*box)
-        with open(result_path+'{:0>6}.jpg'.format(fid), 'a') as f:
+        with open(result_path+'/{:0>6}.txt'.format(fid), 'a') as f:
             f.write(('%g ' * len(line)).rstrip() % line + '\n')
     return 0
 
