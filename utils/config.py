@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 import argparse
+from pathlib import Path
+import cv2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, choices=['OnRamp','Intersect','Express','UrbMixed'], default='OnRamp')
@@ -23,10 +25,32 @@ feature_quality_level = 0.2
 downsample = 5
 FPS = 30
 
-if data_param=='Express':
-    fw,fh = 1280, 720
-else:
-    fw,fh = 1920, 1080
+
+def infer_frame_size(source_path, dataset_name):
+    default_size = (1280, 720) if dataset_name == 'Express' else (1920, 1080)
+    path = Path(source_path)
+
+    if not path.exists():
+        return default_size
+
+    image_candidates = []
+    if path.is_file():
+        image_candidates = [path]
+    else:
+        for ext in ('*.jpg', '*.jpeg', '*.png', '*.bmp'):
+            image_candidates.extend(sorted(path.glob(ext)))
+            image_candidates.extend(sorted(path.glob(ext.upper())))
+
+    for image_path in image_candidates:
+        frame = cv2.imread(str(image_path))
+        if frame is not None:
+            height, width = frame.shape[:2]
+            return width, height
+
+    return default_size
+
+
+fw, fh = infer_frame_size(source, data_param)
 
 data_n = 0
 
@@ -45,7 +69,7 @@ else:
     device = torch.device('cpu')
 
 #detector
-imgsz = (1920,1080)
+imgsz = (fh, fw)
 detect_model = 'apps/yolov5/weights/yolov5m.pt'
 
 params = {}
