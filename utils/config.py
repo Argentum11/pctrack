@@ -10,13 +10,17 @@ parser.add_argument('--delay', type=int, choices=[25,30,35,40,45], default=30)
 parser.add_argument('--method', type=str, choices=['ours', 'base'], default='ours')
 parser.add_argument('--source', type=str, default='datasets/OnRamp/')
 parser.add_argument('--label', type=str, default='datasets/labels/OnRamp_label/')
-parser.add_argument('--save', type=bool, default=False)
+parser.add_argument('--result_path', type=str, default=None)
 
 args = parser.parse_args()
 data_param = args.data
 delay_param = args.delay
 method = args.method
-save = args.save
+result_path = args.result_path
+if result_path is None:
+    save = False
+else:
+    save = True
 source = args.source
 label_path = args.label
 
@@ -56,8 +60,6 @@ data_n = 0
 
 data_l = {'OnRamp':0, 'Intersect':1, 'Express':2, 'UrbMixed':3}
 weight_path_l = ['weights/Intersect.pth','weights/OnRamp.pth','weights/Express.pth','weights/UrbMixed.pth']
-result_path= 'runs/result'
-
 WINDOW = delay_param
 weight_path = weight_path_l[data_l[data_param]]
 
